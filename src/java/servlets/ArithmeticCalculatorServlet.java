@@ -41,26 +41,35 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
             return;
         }
         
-        int firstValue = Integer.parseInt(firstTextValue);
-        int secondValue = Integer.parseInt(secondTextValue);
-        double result=0;
+        try{
+            int firstValue = Integer.parseInt(firstTextValue);
+            int secondValue = Integer.parseInt(secondTextValue);
+            
+            double result=0;
         
-        switch(request.getParameter("operation"))
-        {
-            case "+":
-                result = firstValue + secondValue;
-                break;
-            case "-":
-                result = firstValue - secondValue;
-                break;
-            case "*":
-                result = firstValue * secondValue;
-                break;
-            case "/":
-                result = firstValue / secondValue;
-                break;
+            switch(request.getParameter("operation"))
+            {
+                case "+":
+                    result = firstValue + secondValue;
+                    break;
+                case "-":
+                    result = firstValue - secondValue;
+                    break;
+                case "*":
+                    result = firstValue * secondValue;
+                    break;
+                case "/":
+                    result = firstValue / secondValue;
+                    break;
+            }
+            
+            request.setAttribute("result", result);
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
         }
-        request.setAttribute("result", result);
-        getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+        catch(NumberFormatException e)
+        {
+            request.setAttribute("result", "Invalid");
+            getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
+        }
     }
 }
