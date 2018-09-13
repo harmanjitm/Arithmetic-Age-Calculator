@@ -33,10 +33,8 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         request.setAttribute("first", firstTextValue);
         request.setAttribute("second", secondTextValue);
         
-        if(request.getParameter("firstValue") == null 
-                || request.getParameter("firstValue").equals("")
-                || request.getParameter("secondValue") == null 
-                || request.getParameter("secondValue").equals(""))
+        if(secondTextValue == null || firstTextValue == null 
+                || firstTextValue.equals("") || secondTextValue.equals(""))
         {
             request.setAttribute("result", "Invalid");
             getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
@@ -44,19 +42,25 @@ public class ArithmeticCalculatorServlet extends HttpServlet {
         }
         
         int firstValue = Integer.parseInt(firstTextValue);
-        int secondValue = Integer.parseInt(firstTextValue);
+        int secondValue = Integer.parseInt(secondTextValue);
+        double result=0;
         
         switch(request.getParameter("operation"))
         {
             case "+":
+                result = firstValue + secondValue;
                 break;
             case "-":
+                result = firstValue - secondValue;
                 break;
             case "*":
+                result = firstValue * secondValue;
                 break;
             case "/":
+                result = firstValue / secondValue;
                 break;
         }
+        request.setAttribute("result", result);
         getServletContext().getRequestDispatcher("/WEB-INF/arithmeticcalculator.jsp").forward(request, response);
     }
 }
